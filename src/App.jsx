@@ -2,6 +2,7 @@ import React from "react"
 
 import Instructions from "./components/Instructions"
 import Dice from "./components/Dice"
+import Credits from "./components/Credits"
 
 import Confetti from "react-confetti"
 import useWindowSize from "react-use/lib/useWindowSize"
@@ -78,6 +79,7 @@ export default function App() {
             {tenzies ? "New Game" : "Roll"}
           </button>
         </div>
+        {tenzies && <Credits />}
       </div>
     </main>
   )
