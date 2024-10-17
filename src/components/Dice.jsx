@@ -31,8 +31,8 @@ export default function ({ props, holdFunction } ) {
             onClick={handleClick}
         >
             {matrix.map(row => (
-                row.map((cell, colIndex) => (
-                    <div key={colIndex} className={cell && "dot"}/>
+                row.map((isSelected, column) => (
+                    <div key={column} className={isSelected ? "dot" : ""}/>
                 ))
             ))}
         </div>

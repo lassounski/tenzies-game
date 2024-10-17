@@ -13,20 +13,37 @@ export default function App() {
   const [dices, setDices] = React.useState(allNewDices())
   const [rolls, setRolls] = React.useState(0)
   const [tenzies, setTenzies] = React.useState(false)
+  const [showStats, setShowStats] = React.useState(false)
+  const [isStopwatchActive, setIsStopwatchActive] = React.useState(false);
   const { width, height } = useWindowSize()
 
   React.useEffect(() => {
     setTenzies(
       dices.reduce((acc, current) => {
+        //if all dice have same value and they're all held
         return acc && current.value === dices[0].value && current.isHeld === true
-      }, true)
-    )
+        // this is the initial value for the reduce method so the acc starts as true
+      }, true))
+
+
+    //controls stopwatch
+    if(dices.some(dice => dice.isHeld) && !tenzies){
+      console.log("Start count")
+      setIsStopwatchActive(true)
+      setShowStats(true)
+    }
   }, [dices])
+
+  React.useEffect(() => {
+    if(tenzies){
+      setIsStopwatchActive(false)
+    }
+  }, [tenzies])
 
   const diceElements = dices.map(dice =>
     <Dice
-      holdFunction={hold}
       key={dice.id}
+      holdFunction={hold}
       props={dice}
     />)
 
@@ -44,9 +61,11 @@ export default function App() {
     return newDices
   }
 
-  function rollDices() {
+  function buttonPress() {
+    // new game press
     if (tenzies) {
       setDices(allNewDices())
+      setShowStats(false)
       setRolls(0)
     } else {
       //sets new values for the dices randomly
@@ -87,9 +106,9 @@ export default function App() {
         <div className="dies--container">
           {diceElements}
         </div>
-        <Button props={tenzies} rollDicesParent={rollDices}/>
+        <Button props={tenzies} rollDicesParent={buttonPress}/>
         {tenzies && <Credits />}
-        <Stats props={rolls}/>
+        <Stats rolls={rolls} isStopwatchActive={isStopwatchActive} showStats={showStats}/>
       </div>
     </main>
   )

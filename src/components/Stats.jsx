@@ -1,11 +1,15 @@
 import React from "react"
 
-export default function Stats({props}) {
-    console.log(props)
-    const showContent = props > 0
-    return(
-        <div className="stats--container">
-            {showContent && (<span>Rolls: {props}</span>)}
-        </div>
-    )
+import Stopwatch from "./Stopwatch"
+
+export default function Stats(props) {
+    const showContent = props.showStats
+    return showContent ?
+        (
+            <div className="stats--container">
+                <span>Rolls: {props.rolls}</span>
+                <Stopwatch isActive={props.isStopwatchActive} />
+            </div>
+        )
+        : null
 }

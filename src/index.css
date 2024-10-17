@@ -99,3 +99,9 @@ main {
 .champion {
   font-size: 3rem;
 }
+
+.stats--container {
+  display: flex;
+  padding-top: 1rem;
+  justify-content: space-between;
+}
