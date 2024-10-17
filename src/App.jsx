@@ -1,23 +1,51 @@
 import React from "react"
 
 import Instructions from "./components/Instructions"
-import Die from "./components/Die"
+import Dice from "./components/Dice"
 
 export default function App() {
-  const [dices, setDices] = React.useState(initializeRandomDices())
+  const [dices, setDices] = React.useState(allNewDices())
 
-  console.log(dices)
+  const diceElements = dices.map(dice =>
+    <Dice
+      holdFunction={hold}
+      key={dice.id}
+      props={dice}
+    />)
 
-  function initializeRandomDices() {
-    const randomDices = []
-
+  function allNewDices() {
+    const newDices = []
     for (let i = 0; i < 10; i++) {
-      randomDices.push(
-        <Die key={i} value={Math.floor(Math.random() * 6) + 1}/>
+      newDices.push(
+        {
+          id: i,
+          value: Math.floor(Math.random() * 6) + 1,
+          isHeld: false
+        }
       )
     }
+    return newDices
+  }
 
-    return randomDices
+  function rollDices() {
+    setDices(prev => prev.map(dice =>
+      dice.isHeld ? dice :
+        {
+          ...dice,
+          value: Math.floor(Math.random() * 6) + 1
+        }
+    ))
+  }
+
+  function hold(id) {
+    setDices(prev => prev.map(dice =>
+      dice.id === id ?
+        {
+          ...dice,
+          isHeld: !dice.isHeld
+        }
+        : dice
+    ))
   }
 
   return (
@@ -25,7 +53,10 @@ export default function App() {
       <div className="game--container">
         <Instructions />
         <div className="dies--container">
-            {dices}
+          {diceElements}
+        </div>
+        <div className="button--container">
+          <button className="roll--button" onClick={rollDices}>Roll</button>
         </div>
       </div>
     </main>

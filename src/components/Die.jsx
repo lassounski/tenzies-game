@@ -1,9 +1,0 @@
-import React from "react"
-
-export default function(props) {
-    return(
-        <div className="die--container">
-            <span>{props.value}</span>
-        </div>
-    )
-}
