@@ -5,6 +5,17 @@ import Dice from "./components/Dice"
 
 export default function App() {
   const [dices, setDices] = React.useState(allNewDices())
+  const [tenzies, setTenzies] = React.useState(false)
+
+  React.useEffect(() => {
+    setTenzies(
+      dices.reduce((acc, current) => {
+        return acc && current.value === dices[0].value
+      }, true)
+    )
+    if(tenzies)
+      console.log("VICTORY")
+  }, [dices])
 
   const diceElements = dices.map(dice =>
     <Dice
