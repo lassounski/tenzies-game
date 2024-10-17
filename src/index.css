@@ -49,12 +49,12 @@ main {
 }
 
 .dies--container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 250px;
+  display: grid;
+  grid-template: auto auto / repeat(5, 1fr);
   margin: auto;
-  gap: 10px;
+  
+  width: 250px;
+  gap: 12px;
 }
 
 .die--container  {
@@ -67,4 +67,6 @@ main {
 
   background-color: white;
   box-shadow: 0px 3px 3px gray;
+  border-radius: 3px;
+  cursor: pointer;
 }
