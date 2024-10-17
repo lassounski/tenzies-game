@@ -4,24 +4,30 @@ import Instructions from "./components/Instructions"
 import Die from "./components/Die"
 
 export default function App() {
-  return (
-      <main>
-        <div className="game--container">
-          <Instructions />
-          <div className="dies--container">
-            <Die value="1"/>
-            <Die value="3"/>
-            <Die value="1"/>
-            <Die value="3"/>
-            <Die value="1"/>
+  const [dices, setDices] = React.useState(initializeRandomDices())
 
-            <Die value="5"/>
-            <Die value="1"/>
-            <Die value="2"/>
-            <Die value="4"/>
-            <Die value="6"/>
-          </div>
+  console.log(dices)
+
+  function initializeRandomDices() {
+    const randomDices = []
+
+    for (let i = 0; i < 10; i++) {
+      randomDices.push(
+        <Die key={i} value={Math.floor(Math.random() * 6) + 1}/>
+      )
+    }
+
+    return randomDices
+  }
+
+  return (
+    <main>
+      <div className="game--container">
+        <Instructions />
+        <div className="dies--container">
+            {dices}
         </div>
-      </main>
+      </div>
+    </main>
   )
 }
