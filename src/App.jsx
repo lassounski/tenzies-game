@@ -3,6 +3,7 @@ import React from "react"
 import Instructions from "./components/Instructions"
 import Dice from "./components/Dice"
 import Credits from "./components/Credits"
+import Button from "./components/Button"
 
 import Confetti from "react-confetti"
 import useWindowSize from "react-use/lib/useWindowSize"
@@ -74,11 +75,7 @@ export default function App() {
         <div className="dies--container">
           {diceElements}
         </div>
-        <div className="button--container">
-          <button className="roll--button" onClick={rollDices}>
-            {tenzies ? "New Game" : "Roll"}
-          </button>
-        </div>
+        <Button props={tenzies} rollDicesParent={rollDices}/>
         {tenzies && <Credits />}
       </div>
     </main>
