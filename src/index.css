@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+
+  display: flex;
+  /* Activate flexbox */
+  justify-content: center;
+  /* Horizontally center */
+  align-items: center;
+  /* Vertically center */
+  height: 100vh;
+  /* Full viewport height */
+}
+
+main {
+  font-family: 'Karla';
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 360px;
+  height: 379px;
+  background-color: #0B2434;
+}
+
+.game--container {
+  width: 320px;
+  height: 320px;
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+.instructions--container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.instructions--title {
+  margin-bottom: 0;
+}
+
+.instructions--text {
+  max-width: 232.96px;
+}
