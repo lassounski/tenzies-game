@@ -3,18 +3,20 @@ import React from "react"
 import Instructions from "./components/Instructions"
 import Dice from "./components/Dice"
 
+import Confetti from "react-confetti"
+import useWindowSize from "react-use/lib/useWindowSize"
+
 export default function App() {
   const [dices, setDices] = React.useState(allNewDices())
   const [tenzies, setTenzies] = React.useState(false)
+  const { width, height } = useWindowSize()
 
   React.useEffect(() => {
     setTenzies(
       dices.reduce((acc, current) => {
-        return acc && current.value === dices[0].value
+        return acc && current.value === dices[0].value && current.isHeld === true
       }, true)
     )
-    if(tenzies)
-      console.log("VICTORY")
   }, [dices])
 
   const diceElements = dices.map(dice =>
@@ -39,13 +41,17 @@ export default function App() {
   }
 
   function rollDices() {
-    setDices(prev => prev.map(dice =>
-      dice.isHeld ? dice :
-        {
-          ...dice,
-          value: Math.floor(Math.random() * 6) + 1
-        }
-    ))
+    if (tenzies) {
+      setDices(allNewDices())
+    } else {
+      setDices(prev => prev.map(dice =>
+        dice.isHeld ? dice :
+          {
+            ...dice,
+            value: Math.floor(Math.random() * 6) + 1
+          }
+      ))
+    }
   }
 
   function hold(id) {
@@ -63,11 +69,14 @@ export default function App() {
     <main>
       <div className="game--container">
         <Instructions />
+        {tenzies && <Confetti width={width} height={height}/>}
         <div className="dies--container">
           {diceElements}
         </div>
         <div className="button--container">
-          <button className="roll--button" onClick={rollDices}>Roll</button>
+          <button className="roll--button" onClick={rollDices}>
+            {tenzies ? "New Game" : "Roll"}
+          </button>
         </div>
       </div>
     </main>
