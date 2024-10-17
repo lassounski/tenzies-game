@@ -4,12 +4,14 @@ import Instructions from "./components/Instructions"
 import Dice from "./components/Dice"
 import Credits from "./components/Credits"
 import Button from "./components/Button"
+import Stats from "./components/Stats"
 
 import Confetti from "react-confetti"
 import useWindowSize from "react-use/lib/useWindowSize"
 
 export default function App() {
   const [dices, setDices] = React.useState(allNewDices())
+  const [rolls, setRolls] = React.useState(0)
   const [tenzies, setTenzies] = React.useState(false)
   const { width, height } = useWindowSize()
 
@@ -45,7 +47,9 @@ export default function App() {
   function rollDices() {
     if (tenzies) {
       setDices(allNewDices())
+      setRolls(0)
     } else {
+      //sets new values for the dices randomly
       setDices(prev => prev.map(dice =>
         dice.isHeld ? dice :
           {
@@ -53,6 +57,14 @@ export default function App() {
             value: Math.floor(Math.random() * 6) + 1
           }
       ))
+      //counts number of rolls
+      setRolls(prev => {
+        if(dices.some(dice => dice.isHeld === true)){
+          return (prev + 1)
+        } else{
+          return 0;
+        }
+      })
     }
   }
 
@@ -70,13 +82,14 @@ export default function App() {
   return (
     <main>
       <div className="game--container">
-        <Instructions />
+        <Instructions props={tenzies}/>
         {tenzies && <Confetti width={width} height={height}/>}
         <div className="dies--container">
           {diceElements}
         </div>
         <Button props={tenzies} rollDicesParent={rollDices}/>
         {tenzies && <Credits />}
+        <Stats props={rolls}/>
       </div>
     </main>
   )
